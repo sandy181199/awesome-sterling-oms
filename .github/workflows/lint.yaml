@@ -1,0 +1,25 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: awesome-lint
+        run: npx --yes awesome-lint
+        continue-on-error: true
+
+      - name: markdownlint
+        run: npx --yes markdownlint-cli "**/*.md" --ignore node_modules
